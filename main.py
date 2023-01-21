@@ -1,6 +1,6 @@
 import config as cf
 from aiogram import Bot, Dispatcher, executor, types
-kromer_list = [1,2,3,4,5,6,7,8,9]
+val_list = [1,2,3,4,5,6,7,8,9]
 token = cf.token
 tgbot = Bot(token)
 dp = Dispatcher(tgbot)
@@ -9,7 +9,7 @@ HELP_MES = """
 <b>/help</b> - <em>Я (не) помогу тебе</em>
 <b>/start</b> - <em>Запусти меня (ты чёрт)</em>
 <b>/work</b> - <em>Лол пчел ты......</em>
-<b>/buy</b><em> Покупай [KROMER]</em>
+<b>/buy</b><em> Покупай любую валюту</em>
 
 """
 
@@ -20,26 +20,34 @@ async def send_welcom(message: types.Message):
 
 @dp.message_handler(commands = ['work'])
 async def Work(message: types.Message):
-    return await message.reply("Нет я не буду работать!!! Сам работай! А меня оставь в покое!!!")
+    return await message.reply("Работай человек!! Работай!!! Сам!!!")
 
 
 @dp.message_handler(commands = ['help'])
 async def send_welcom(message: types.Message):
     return await tgbot.send_message(message.chat.id,HELP_MES,"HTML")
-'''
+
 @dp.message_handler(commands = ['buy'])
 async def buy(message: types.Message):
     args = message.get_args()
-    if len(kromer_list) == 0:
-        return await tgbot.send_message(message.chat.id, "Брах чел...... Сорян но [KROMER] не осталось. Сейчас напечатую ещё. Вернись позже.")
+    if len(val_list) == 0:
+        return await tgbot.send_message(message.chat.id, "Брах чел...... Сорян но валюты не осталось. Сейчас напечатую ещё. Вернись позже.")
     if not args:
-        return await tgbot.send_message(message.chat.id, f"Сейчас я могу продать тебе только {len(kromer_list)}! ПОКУПАЙ ВСЁ!! БЫСТРО!!!!!")
+        return await tgbot.send_message(message.chat.id, f"Сейчас я могу продать тебе только {len(val_list)}! ПОКУПАЙ ВСЁ!! БЫСТРО!!!!! НЕ ЗАСТАВЛЯЙ МЕНЯ ПОВТОРЯТЬ!!! Пиши в формате: /buy число (число валюты которой ты хочешь купить)! "
+                                                         f"")
     else:
-        if 
-        for i range(args):
-            kromer_list.pop()
-        return await tgbot.send_message(message.chat.id, "Спасибо за покупку! А теперь уходи!!!")
-'''
+        if args.isdigit():
+            args = int(args)
+            if args  > len(val_list):
+                return await tgbot.send_message(message.chat.id, f"ВОУ! ВОУ! ВОУ! Чел...... А ты хорош! Но к сожалению я могу продать тебе только {len(val_list)}! Прости!")
+            elif args == len(val_list):
+                for i in range(args):
+                    print(i)
+                    val_list.pop()
+                 await tgbot.send_message(message.chat.id, "Молодец! Хороший человек!!! Так уж и быть продам я продам тебе твою валюту! Заслужил!")
+                return await tgbot.send_message(message.chat.id, "ВСЁ!!! УРА!!! Я СВОБОДЕН!!! Я ПРОДАЛ ВАЛЮТУ!!!! А ТЫ МОЖЕШЬ ИДТИ ОТСУДА!!!!")
+            elif args < len(val_list):
+                return await tgbot.send_message(message.chat.id, "ТЫ ЧТО НЕ ПОНЯЛ!!!!!!! Я ЖЕ СКАЗАЛ ЧТОБЫ ТЫ ПОКУПАЛ ВСЁ!!!!!!! ИЛИ К ТЕБЕ ГРУППУ УСТРАНЕНИЯ ОТПРАВИТЬ????!!!!?!?!!?!? А ЧЁРТ!!!!!")
 
 
 
